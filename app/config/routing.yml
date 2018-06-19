@@ -1,0 +1,8 @@
+mozenta_mozenta:
+    resource: "@MozentaMozentaBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
+
+
+

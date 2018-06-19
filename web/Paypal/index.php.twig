@@ -1,0 +1,190 @@
+<?php session_start();
+$db = new PDO("mysql:host=localhost;dbname=paypal","root","");
+$db->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_WARNING);
+$req = $db->query('SELECT * FROM user WHERE id_user=1');
+while($d = $req->fetch(PDO::FETCH_ASSOC)){
+    $_SESSION['User'] = $d;
+}
+
+
+
+?>
+
+<!DOCTYPE html>
+<html xmlns="http://W3.org/1999/xhtml" xml:lang="fr" lang="fr">
+    <head>
+            <meta http-equiv=""Content-Type" content="text/html; charset=utf-8"/>
+            <title>PAYPAL</title>
+            <link rel="stylesheet" href="../web/assets/css/bootstrap.min.css">
+            <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+
+
+        <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+        <meta charset="utf-8">
+        <style>
+            /* Always set the map height explicitly to define the size of the div
+             * element that contains the map. */
+            #map {
+                height: 80%;
+            }
+            /* Optional: Makes the sample page fill the window. */
+            html, body {
+                height: 80%;
+
+                margin: 0;
+                padding: 0;
+            }
+        </style>
+    </head>
+    <body>
+
+        <div class="topbar">
+            <div class="topbar-inner">
+                <div class="container">
+                    <h3><a href="#">Mendoza</a></h3>
+                    <ul class="nav">
+                        <li><a href="#" title="">Connecte en tant que <?php echo $_SESSION['User']['name']; ?></a></li>
+                    </ul>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="container" style="padding-top:60px;">
+            <div class="page-header">
+                <h1>Choisissez votre carte</h1>
+
+                <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+                    <input type="hidden" name="cmd" value="_s-xclick">
+                    <input type="hidden" name="hosted_button_id" value="64CS2G3BQWWSG">
+                    <table>
+                        <tr><td><input type="hidden" name="on0" value="montant de la carte">montant de la carte</td></tr><tr><td><select name="os0">
+                                    <option value="Option 1">Carte 1 50,00 EUR</option>
+                                    <option value="Option 2">Carte 2 20,00 EUR</option>
+                                    <option value="Option 3">Carte 3 10,00 EUR</option>
+                                </select> </td></tr>
+                    </table>
+                    <input type="hidden" name="currency_code" value="EUR">
+                    <input type="image" src="https://www.paypalobjects.com/fr_FR/FR/i/btn/btn_buynowCC_LG.gif" border="0" name="submit" alt="PayPal, le réflexe sécurité pour payer en ligne">
+                    <img alt="" border="0" src="https://www.paypalobjects.com/fr_FR/i/scr/pixel.gif" width="1" height="1">
+                </form>
+
+            </div>
+        </div>
+        <br>
+        <br>
+        <div id="map"></div>
+        <script>
+            function initMap() {
+                // Styles a map in night mode.
+                var map = new google.maps.Map(document.getElementById('map'), {
+                    center: {lat: 35.689487, lng: 139.691706},
+                    zoom: 12,
+                    styles: [
+                        {elementType: 'geometry', stylers: [{color: '#242f3e'}]},
+                        {elementType: 'labels.text.stroke', stylers: [{color: '#242f3e'}]},
+                        {elementType: 'labels.text.fill', stylers: [{color: '#746855'}]},
+                        {
+                            featureType: 'administrative.locality',
+                            elementType: 'labels.text.fill',
+                            stylers: [{color: '#d59563'}]
+                        },
+                        {
+                            featureType: 'poi',
+                            elementType: 'labels.text.fill',
+                            stylers: [{color: '#d59563'}]
+                        },
+                        {
+                            featureType: 'poi.park',
+                            elementType: 'geometry',
+                            stylers: [{color: '#263c3f'}]
+                        },
+                        {
+                            featureType: 'poi.park',
+                            elementType: 'labels.text.fill',
+                            stylers: [{color: '#6b9a76'}]
+                        },
+                        {
+                            featureType: 'road',
+                            elementType: 'geometry',
+                            stylers: [{color: '#38414e'}]
+                        },
+                        {
+                            featureType: 'road',
+                            elementType: 'geometry.stroke',
+                            stylers: [{color: '#212a37'}]
+                        },
+                        {
+                            featureType: 'road',
+                            elementType: 'labels.text.fill',
+                            stylers: [{color: '#9ca5b3'}]
+                        },
+                        {
+                            featureType: 'road.highway',
+                            elementType: 'geometry',
+                            stylers: [{color: '#746855'}]
+                        },
+                        {
+                            featureType: 'road.highway',
+                            elementType: 'geometry.stroke',
+                            stylers: [{color: '#1f2835'}]
+                        },
+                        {
+                            featureType: 'road.highway',
+                            elementType: 'labels.text.fill',
+                            stylers: [{color: '#f3d19c'}]
+                        },
+                        {
+                            featureType: 'transit',
+                            elementType: 'geometry',
+                            stylers: [{color: '#2f3948'}]
+                        },
+                        {
+                            featureType: 'transit.station',
+                            elementType: 'labels.text.fill',
+                            stylers: [{color: '#d59563'}]
+                        },
+                        {
+                            featureType: 'water',
+                            elementType: 'geometry',
+                            stylers: [{color: '#17263c'}]
+                        },
+                        {
+                            featureType: 'water',
+                            elementType: 'labels.text.fill',
+                            stylers: [{color: '#515c6d'}]
+                        },
+                        {
+                            featureType: 'water',
+                            elementType: 'labels.text.stroke',
+                            stylers: [{color: '#17263c'}]
+                        }
+                    ]
+                });
+            }
+        </script>
+
+        <!-- Matomo -->
+        <script type="text/javascript">
+            var _paq = _paq || [];
+            /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+            _paq.push(['trackPageView']);
+            _paq.push(['enableLinkTracking']);
+            (function() {
+                var u="//127.0.0.1/Mendoza/piwik/piwik/";
+                _paq.push(['setTrackerUrl', u+'piwik.php']);
+                _paq.push(['setSiteId', '2']);
+                var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+                g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+            })();
+        </script>
+        <!-- End Matomo Code -->
+
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyARAGB3Q7994SbYUeRCmvMQl1YwfgQ_Wls&callback=initMap"
+                async defer></script>
+    </body>
+    <script type="text/javascript" src='https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js'></script>
+</html>
